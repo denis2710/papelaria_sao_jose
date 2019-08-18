@@ -2,6 +2,7 @@ import { Repository, EntityRepository } from 'typeorm';
 import { Product } from './product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { GetProductsFilterDto, NumberFilterRule } from './dto/get-products-filter.dto';
+import { User } from '../auth/user.entity';
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
@@ -54,10 +55,13 @@ export class ProductRepository extends Repository<Product> {
             queryParams.weight = weight;
         }
 
-        return await this.createQueryBuilder().where(queryString, queryParams).getMany();
+        return await this.createQueryBuilder('product')
+            .innerJoinAndSelect('product.userCreator', 'userCreator')
+            .where(queryString, queryParams)
+            .getMany();
     }
 
-    async createProduct(createProductDto: CreateProductDto) {
+    async createProduct(user: User, createProductDto: CreateProductDto) {
         const { name, description, weight, color, price } = createProductDto;
         const product = new Product();
 
@@ -67,8 +71,13 @@ export class ProductRepository extends Repository<Product> {
         product.weight = weight;
         product.price = price;
         product.active = true;
+        product.userCreator = user;
 
-        return await product.save();
+        await product.save();
+
+        delete product.userCreator;
+
+        return product;
     }
 
 }

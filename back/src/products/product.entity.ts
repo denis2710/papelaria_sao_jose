@@ -1,4 +1,5 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { User } from '../auth/user.entity';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -23,4 +24,11 @@ export class Product extends BaseEntity {
 
     @Column()
     active: boolean;
+
+    // @ManyToOne(type => User, user => user.products, { eager: false } )
+    @ManyToOne(type => User, null, { eager: false } )
+    userCreator: User;
+
+    @Column()
+    userCreatorId: number;
 }

@@ -5,6 +5,9 @@ import { GetProductsFilterDto } from './dto/get-products-filter.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductRepository } from './product.repository';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { User } from '../auth/user.entity';
+import { History, HistoryActionType } from '../history/history.entity';
+import { HistoryService } from '../history/history.service';
 
 @Injectable()
 export class ProductsService {
@@ -12,10 +15,11 @@ export class ProductsService {
     constructor(
         @InjectRepository(ProductRepository)
         private readonly productRepository: ProductRepository,
+        private readonly historyService: HistoryService,
     ) {}
 
     async getAll(): Promise<Product[]> {
-        return await this.productRepository.find();
+        return await this.productRepository.find({ relations: ['userCreator'] });
     }
 
     async getProductWithFilter(getProductsFilterDto: GetProductsFilterDto): Promise<Product[]> {
@@ -23,11 +27,11 @@ export class ProductsService {
     }
 
     async getOnlyActivesProducts(): Promise<Product[]> {
-        return await this.productRepository.find({ active: true });
+        return await this.productRepository.find({ where: { active: true },  relations: ['userCreator'] });
     }
 
     async getOnlyRemovedProducts(): Promise<Product[]> {
-        return await this.productRepository.find({ active: false });
+        return await this.productRepository.find({ where: { active: false },  relations: ['userCreator'] });
     }
 
     async findProductById(id: number): Promise<Product> {
@@ -38,8 +42,21 @@ export class ProductsService {
         return product;
     }
 
-    async createProduct(createProductDto: CreateProductDto): Promise<Product> {
-        return await this.productRepository.createProduct(createProductDto);
+    async createProduct(user: User, createProductDto: CreateProductDto): Promise<Product> {
+        const product = await this.productRepository.createProduct(user, createProductDto);
+
+        const history = new History();
+        history.Product = product;
+        history.user = user;
+        history.action = HistoryActionType.CREATE,
+        history.changes = JSON.stringify({
+                before: {},
+                after: product,
+            });
+        history.date = new Date();
+
+        await this.historyService.createHistory(history);
+        return product;
     }
 
     async updateProduct(id: number, updateProductDto: UpdateProductDto): Promise<Product> {

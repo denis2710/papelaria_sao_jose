@@ -1,12 +1,16 @@
-import { Controller, Get, Post, Body, Param, Query, Put, Delete, Patch, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, Put, Delete, Patch, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
 import { Product } from './product.entity';
 import { ProductsService } from './products.service';
 import { GetProductsFilterDto } from './dto/get-products-filter.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { puts } from 'util';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from '../auth/get-user-decorator';
+import { User } from '../auth/user.entity';
 
 @Controller('products')
+@UseGuards(AuthGuard())
 export class ProductsController {
 
     constructor(
@@ -51,8 +55,8 @@ export class ProductsController {
 
     @Post()
     @UsePipes(ValidationPipe)
-    creteProduduct(@Body() createProductDto: CreateProductDto): Promise<Product> {
-        return this.productsService.createProduct(createProductDto);
+    creteProduduct(@GetUser() user: User, @Body() createProductDto: CreateProductDto): Promise<Product> {
+        return this.productsService.createProduct(user, createProductDto);
     }
 
     @Put('/:id')
