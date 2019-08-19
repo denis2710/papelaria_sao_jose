@@ -1,5 +1,56 @@
 const Menu = [
-  { header: "Apps" },
+  {
+    title: "Dashboard",
+    group: "dashboard",
+    icon: "dashboard",
+    name: "Dashboard"
+  },
+  // { header: "Produtos" },
+  {
+    title: "Produtos",
+    group: "produtos",
+    component: "widgets",
+    icon: "widgets",
+    items: [
+      { name: "list_produtos", title: "Listar Produtos", component: "AllProducts" }
+      // { name: "social", title: "Social", component: "SocialWidget" },
+        // {
+        //   name: "statistic",
+        //   title: "Statistic",
+        //   badge: "new",
+        //   component: "StatisticWidget"
+        // },
+        // { name: "chart", title: "Chart", component: "ChartWidget" },
+      ]
+    },
+  {
+    title: "Exibir Produtos",
+    group: "apps",
+    icon: "dashboard",
+    name: "produtos",
+    component: "ChartWidget"
+  },
+  {
+    title: "Cadastrar Novo Produto",
+    group: "apps",
+    icon: "dashboard",
+    name: "cadastrar_produto"
+  },
+  { header: "Histórico" },
+  {
+    title: "Exibir Histórico de Alterações",
+    group: "historico",
+    icon: "dashboard",
+    name: "historico"
+  },
+  { header: "Usuários" },
+  {
+    title: "Adminsitrar Usuários",
+    group: "usuarios",
+    icon: "dashboard",
+    name: "usuarios"
+  },
+  { header: "Antigos" },
   {
     title: "Dashboard",
     group: "apps",
@@ -13,65 +64,65 @@ const Menu = [
     target: "_blank",
     name: "Chat"
   },
-  {
-    title: "Inbox",
-    group: "apps",
-    name: "Mail",
-    target: "_blank",
-    icon: "email"
-  },
   // {
-  //   title: 'Media',
-  //   group: 'apps',
-  //   name: 'Media',
-  //   icon: 'perm_media',
+  //   title: "Inbox",
+  //   group: "apps",
+  //   name: "Mail",
+  //   target: "_blank",
+  //   icon: "email"
   // },
-  {
-    title: "Widgets",
-    group: "widgets",
-    component: "widgets",
-    icon: "widgets",
-    items: [
-      { name: "social", title: "Social", component: "SocialWidget" },
-      {
-        name: "statistic",
-        title: "Statistic",
-        badge: "new",
-        component: "StatisticWidget"
-      },
-      { name: "chart", title: "Chart", component: "ChartWidget" },
-      { name: "list", title: "List", component: "ListWidget" }
-    ]
-  },
-  { header: "CMS" },
-  {
-    title: "List & Query",
-    group: "layout",
-    icon: "view_compact",
-    items: [{ name: "Table", title: "Basic Table", component: "ListTable" }]
-  }
+  // // {
+  // //   title: 'Media',
+  // //   group: 'apps',
+  // //   name: 'Media',
+  // //   icon: 'perm_media',
+  // // },
   // {
-  //   title: 'Forms & Controls',
-  //   group: 'forms',
-  //   component: 'forms',
-  //   icon: 'edit',
+  //   title: "Widgets",
+  //   group: "widgets",
+  //   component: "widgets",
+  //   icon: "widgets",
   //   items: [
-  //     { name: 'basic', title: 'General', component: 'components/basic-forms' },
+  //     { name: "social", title: "Social", component: "SocialWidget" },
+  //     {
+  //       name: "statistic",
+  //       title: "Statistic",
+  //       badge: "new",
+  //       component: "StatisticWidget"
+  //     },
+  //     { name: "chart", title: "Chart", component: "ChartWidget" },
+  //     { name: "list", title: "List", component: "ListWidget" }
   //   ]
   // },
-  // { divider: true },
-  // { header: 'Extras' },
+  // { header: "CMS" },
   // {
-  //   title: 'Pages',
-  //   group: 'extra',
-  //   icon: 'list',
-  //   items: [
-  //     { name: 'Login', title: 'Login', component: 'Login' },
-  //     { name: '404', title: '404', component: 'NotFound' },
-  //     { name: '403', title: '403', component: 'AccessDenied' },
-  //     { name: '500', title: '500', component: 'ServerError' },
-  //   ]
-  // },
+  //   title: "List & Query",
+  //   group: "layout",
+  //   icon: "view_compact",
+  //   items: [{ name: "Table", title: "Basic Table", component: "ListTable" }]
+  // }
+  // // {
+  // //   title: 'Forms & Controls',
+  // //   group: 'forms',
+  // //   component: 'forms',
+  // //   icon: 'edit',
+  // //   items: [
+  // //     { name: 'basic', title: 'General', component: 'components/basic-forms' },
+  // //   ]
+  // // },
+  // // { divider: true },
+  // // { header: 'Extras' },
+  // // {
+  // //   title: 'Pages',
+  // //   group: 'extra',
+  // //   icon: 'list',
+  // //   items: [
+  // //     { name: 'Login', title: 'Login', component: 'Login' },
+  // //     { name: '404', title: '404', component: 'NotFound' },
+  // //     { name: '403', title: '403', component: 'AccessDenied' },
+  // //     { name: '500', title: '500', component: 'ServerError' },
+  // //   ]
+  // // },
 ]
 // reorder menu
 Menu.forEach(item => {

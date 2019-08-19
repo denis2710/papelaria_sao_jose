@@ -63,13 +63,38 @@ export class ProductsService {
         const product: Product = await this.findProductById(id);
         const { name, description, color, weight, price } = updateProductDto;
 
-        const constBeforeProduct: Product = product;
+        let before: Product = new Product();
+        let after: Product = new Product();
 
-        product.name        = name        || product.name;
-        product.description = description || product.description;
-        product.color       = color       || product.color;
-        product.weight      = weight      || product.weight;
-        product.price       = price       || product.price;
+        if(name !==  undefined) { 
+            before.name = product.name;
+            after.name = name;
+            product.name = name ;
+        }
+
+        if(description  !==  undefined) { 
+            before.description = product.description;
+            after.description = description;
+            product.description = description ;
+        }
+
+        if(color !==  undefined) { 
+            before.color = product.color;
+            after.color = color;
+            product.color = color ;
+        }
+
+        if(weight !==  undefined) { 
+            before.weight = product.weight;
+            after.weight = weight;
+            product.weight = weight ;
+        }
+
+        if(price !==  undefined) { 
+            before.price = product.price;
+            after.price = price;
+            product.price = price ;
+        }
 
         await product.save();
 
@@ -77,10 +102,7 @@ export class ProductsService {
         history.product = product;
         history.user = user;
         history.action = HistoryActionType.UPDATE,
-        history.changes = JSON.stringify({
-                before: constBeforeProduct,
-                after: product,
-            });
+        history.changes = JSON.stringify({ before, after });
         history.date = new Date();
         await this.historyService.createHistory(history);
 

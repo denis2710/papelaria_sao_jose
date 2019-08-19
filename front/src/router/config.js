@@ -72,6 +72,39 @@ export const protectedRoute = [
     ]
   },
 
+  //Products
+  {
+    path: "/products",
+    component: DefaultLayout,
+    meta: { title: "Produtos", icon: "widgets", group: "product" },
+    redirect: "/products/all",
+    children: [
+      {
+        path: "/widgets/all",
+        name: "AllProducts",
+        meta: { title: "Todos Produtos" },
+        component: () => import(/* webpackChunkName: "chart-widget" */ "@/views/products/ListAll.vue")
+      },
+      {
+        path: "/widgets/list",
+        name: "ListWidget",
+        meta: { title: "List Widget" },
+        component: () => import(/* webpackChunkName: "list-widget" */ "@/views/widgets/List.vue")
+      },
+      {
+        path: "/widgets/social",
+        name: "SocialWidget",
+        meta: { title: "Social Widget" },
+        component: () => import(/* webpackChunkName: "social-widget" */ "@/views/widgets/Social.vue")
+      },
+      {
+        path: "/widgets/statistic",
+        name: "StatisticWidget",
+        meta: { title: "Statistic Widget" },
+        component: () => import(/* webpackChunkName: "statistic-widget" */ "@/views/widgets/Statistic.vue")
+      }
+    ]
+  },
   //widgets
   {
     path: "/widgets",

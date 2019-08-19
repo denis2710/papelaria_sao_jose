@@ -60,6 +60,7 @@ export class ProductsController {
     }
 
     @Put('/:id')
+    @UsePipes(ValidationPipe)
     UpdateProduct(@GetUser() user: User, @Param() id: number, @Body() updateProduct: UpdateProductDto): Promise<Product> {
         return this.productsService.updateProduct(user, id, updateProduct);
     }

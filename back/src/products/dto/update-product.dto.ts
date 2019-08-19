@@ -1,20 +1,26 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsOptional } from 'class-validator';
+import { IsNull } from 'typeorm';
 
 export class UpdateProductDto {
 
-    @IsNotEmpty()
-    name: string;
+    @IsOptional()
+    @IsString()
+    name?: string;
 
-    @IsNotEmpty()
-    description: string;
-
-    @IsNotEmpty()
-    price: number;
-
-    @IsNotEmpty()
-    weight: number;
-
-    @IsNotEmpty()
-    color: string;
+    @IsOptional()
+    @IsString()
+    description?: string;
+    
+    @IsOptional()
+    @IsNumber()
+    price?: number;
+    
+    @IsOptional()
+    @IsNumber()
+    weight?: number;
+    
+    @IsOptional()
+    @IsString()
+    color?: string;
 
 }

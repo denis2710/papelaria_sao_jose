@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { History } from './history.entity';
 import { HistoryRepository } from './history.repository';
 import { InjectRepository } from '@nestjs/typeorm';
+import { GetHistoryFilterDto } from './dto/get-history-filter.dto';
 
 @Injectable()
 export class HistoryService {
@@ -14,8 +15,13 @@ export class HistoryService {
     async createHistory(history: History): Promise<History> {
         return await history.save();
     }
-
-    async getAllHistory() {
+ 
+    async getAllHistory(): Promise<History[]> {
         return await this.historyRepository.find();
     }
+
+    async getHistoryWithFilter(getHistoryFilterDto: GetHistoryFilterDto): Promise<History[]> { 
+        return await this.historyRepository.filterHistory(getHistoryFilterDto)
+    }
+
 }

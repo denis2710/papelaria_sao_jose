@@ -12,7 +12,7 @@ export class AuthController {
 
     @Post('/signup')
     @UsePipes(ValidationPipe)
-    signUp(@Body() createUserDto: CreateUserDto): Promise<void> {
+    signUp(@Body() createUserDto: CreateUserDto): Promise<{accessToken: string}> {
         return this.authService.signUp(createUserDto);
     }
 
