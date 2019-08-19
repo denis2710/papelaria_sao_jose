@@ -14,11 +14,11 @@ export class History extends BaseEntity {
     @Column()
     userId: number;
 
-    // @ManyToOne(type => Product, null, { eager: false } )
-    // product: Product;
+    @ManyToOne(type => Product, null, { eager: false } )
+    product: Product;
 
-    // @Column()
-    // productId: number;
+    @Column()
+    productId: number;
 
     @Column()
     action: HistoryActionType;

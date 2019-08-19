@@ -60,8 +60,8 @@ export class ProductsController {
     }
 
     @Put('/:id')
-    UpdateProduct(@Param() id: number, @Body() updateProduct: UpdateProductDto): Promise<Product> {
-        return this.productsService.updateProduct(id, updateProduct);
+    UpdateProduct(@GetUser() user: User, @Param() id: number, @Body() updateProduct: UpdateProductDto): Promise<Product> {
+        return this.productsService.updateProduct(user, id, updateProduct);
     }
 
     @Delete('/:id')

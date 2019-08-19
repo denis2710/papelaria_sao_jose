@@ -10,7 +10,6 @@ import { ProductsModule } from '../products/products.module';
   imports: [
     TypeOrmModule.forFeature([HistoryRepository]),
     AuthModule,
-    ProductsModule,
   ],
   providers: [HistoryService],
   controllers: [HistoryController],

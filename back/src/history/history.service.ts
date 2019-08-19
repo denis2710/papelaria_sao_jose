@@ -12,7 +12,6 @@ export class HistoryService {
     ) {}
 
     async createHistory(history: History): Promise<History> {
-        console.log({history});
         return await history.save();
     }
 

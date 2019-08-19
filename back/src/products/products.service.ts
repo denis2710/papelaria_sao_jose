@@ -46,7 +46,7 @@ export class ProductsService {
         const product = await this.productRepository.createProduct(user, createProductDto);
 
         const history = new History();
-        history.Product = product;
+        history.product = product;
         history.user = user;
         history.action = HistoryActionType.CREATE,
         history.changes = JSON.stringify({
@@ -54,14 +54,16 @@ export class ProductsService {
                 after: product,
             });
         history.date = new Date();
-
         await this.historyService.createHistory(history);
+
         return product;
     }
 
-    async updateProduct(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
+    async updateProduct(user: User, id: number, updateProductDto: UpdateProductDto): Promise<Product> {
         const product: Product = await this.findProductById(id);
         const { name, description, color, weight, price } = updateProductDto;
+
+        const constBeforeProduct: Product = product;
 
         product.name        = name        || product.name;
         product.description = description || product.description;
@@ -70,6 +72,17 @@ export class ProductsService {
         product.price       = price       || product.price;
 
         await product.save();
+
+        const history = new History();
+        history.product = product;
+        history.user = user;
+        history.action = HistoryActionType.UPDATE,
+        history.changes = JSON.stringify({
+                before: constBeforeProduct,
+                after: product,
+            });
+        history.date = new Date();
+        await this.historyService.createHistory(history);
 
         return product;
     }
