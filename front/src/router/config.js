@@ -80,31 +80,83 @@ export const protectedRoute = [
     redirect: "/products/all",
     children: [
       {
-        path: "/widgets/all",
+        path: "/products/all",
         name: "AllProducts",
         meta: { title: "Todos Produtos" },
-        component: () => import(/* webpackChunkName: "chart-widget" */ "@/views/products/ListAll.vue")
+        component: () => import( "@/views/products/ListAll.vue")
       },
       {
-        path: "/widgets/list",
-        name: "ListWidget",
-        meta: { title: "List Widget" },
-        component: () => import(/* webpackChunkName: "list-widget" */ "@/views/widgets/List.vue")
+        path: "/products/active",
+        name: "ActiveProducts",
+        meta: { title: "Produtos Ativos" },
+        component: () => import( "@/views/products/ListActives.vue")
       },
       {
-        path: "/widgets/social",
-        name: "SocialWidget",
-        meta: { title: "Social Widget" },
-        component: () => import(/* webpackChunkName: "social-widget" */ "@/views/widgets/Social.vue")
+        path: "/products/create",
+        name: "CreateProduct",
+        meta: { title: "Cadastrar Produto" },
+        component: () => import("@/views/products/CreateProduct.vue")
       },
       {
-        path: "/widgets/statistic",
-        name: "StatisticWidget",
-        meta: { title: "Statistic Widget" },
-        component: () => import(/* webpackChunkName: "statistic-widget" */ "@/views/widgets/Statistic.vue")
+        path: "/products/edit",
+        name: "EditProduct",
+        meta: { title: "Editar Produto" },
+        component: () => import("@/views/products/EditProdutcs.vue")
+      },
+      {
+        path: "/products/removed",
+        name: "RemovedProducts",
+        meta: { title: "Produtos Removidos" },
+        component: () => import("@/views/products/RemovedProducts.vue")
+      },
+      {
+        path: "/products/active",
+        name: "ActivesProducts",
+        meta: { title: "Produtos Ativos" },
+        component: () => import(/* webpackChunkName: "list-widget" */ "@/views/products/ActivesProducts.vue")
+      },
+    ]
+  },
+
+  //History
+  {
+    path: "/history",
+    component: DefaultLayout,
+    meta: { title: "History", icon: "widgets", group: "product" },
+    redirect: "/history",
+    children: [
+      {
+        path: "/history",
+        name: "History",
+        meta: { title: "Histórico" },
+        component: () => import("@/views/history/History.vue")
       }
     ]
   },
+
+  //Users
+  {
+    path: "/user",
+    component: DefaultLayout,
+    meta: { title: "Usuários", icon: "widgets", group: "product" },
+    redirect: "/users/all",
+    children: [
+      {
+        path: "/users/all",
+        name: "ListUsers",
+        meta: { title: "Usuários" },
+        component: () => import("@/views/users/ListUsers.vue")
+      },
+      {
+        path: "/users/create",
+        name: "CreateUser",
+        meta: { title: "Usuários" },
+        component: () => import("@/views/users/CreateUser.vue")
+      }
+    ]
+  },
+
+
   //widgets
   {
     path: "/widgets",

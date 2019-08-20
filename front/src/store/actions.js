@@ -1,3 +1,3 @@
 function getAllProducts(){
-  alert("all products")
+  alert("all products") 
 }

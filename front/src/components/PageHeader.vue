@@ -3,17 +3,6 @@
     <div class="page-header-left">
       <h3 class="pr-3">{{ $route.meta.title || '' }}</h3>
     </div>
-    <v-breadcrumbs divider="-" :items="breadcrumbs">
-        <template v-slot:item="props">
-        <a :href="props.item.href" :class="[props.item.disabled && 'disabled']">{{ props.item.text}}</a>
-      </template>
-    </v-breadcrumbs>
-    <v-spacer></v-spacer>
-    <div class="page-header-right">
-      <v-btn icon>
-        <v-icon class="text--secondary">refresh</v-icon>
-      </v-btn>
-    </div>
   </v-layout>
 </template>
 

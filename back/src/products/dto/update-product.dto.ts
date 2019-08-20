@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsNumber, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsOptional, Min } from 'class-validator';
 import { IsNull } from 'typeorm';
 
 export class UpdateProductDto {
@@ -13,6 +13,8 @@ export class UpdateProductDto {
     
     @IsOptional()
     @IsNumber()
+    @IsNotEmpty({message: 'O preço do produto deve ser informado.'})
+    @Min(0.1, { message: 'O preço do produto é inválido.'})
     price?: number;
     
     @IsOptional()
