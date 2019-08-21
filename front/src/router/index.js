@@ -3,6 +3,7 @@ import Router from "vue-router"
 import { publicRoute, protectedRoute } from "./config"
 import NProgress from "nprogress"
 import "nprogress/nprogress.css"
+import store from "./../store";
 const routes = publicRoute.concat(protectedRoute)
 
 Vue.use(Router)
@@ -15,6 +16,18 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   NProgress.start()
   //auth route is authenticated
+  store.dispatch("fetchAccessToken")
+
+  if (to.fullPath !== "/auth/login") {
+    if (!store.state.accessToken) {
+      next("/auth/login")
+    }
+  }
+  // if (to.fullPath === "/login") {
+  //   if (store.state.accessToken) {
+  //     next("/users")
+  //   }
+  // }
   next()
 })
 

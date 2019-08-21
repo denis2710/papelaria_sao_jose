@@ -1,6 +1,6 @@
 <template>
   <div id="products">
-    <v-container grid-list-xl fluid>    
+    <v-container grid-list-xl fluid>
       <v-layout row wrap>
         <v-flex lg12>
           <v-data-table :headers="products.headers" :items="products.items" :items-per-page="5" class="elevation-1">
@@ -28,7 +28,7 @@
 
 <script>
 
-import {HTTP} from '../../common/http-common';
+import { getAllProducts } from '../../api/requestsApi';
 
 export default {
   components: {
@@ -58,7 +58,7 @@ export default {
             value: "weight"
           },
           {
-            text: "Ações",
+            text: "Aï¿½ï¿½es",
             value: "actions"
           },
         ],
@@ -67,12 +67,7 @@ export default {
     }
   },
   created() {
-
-    HTTP.get('products', null, { useCredentails: true })
-    .then(response => {
-      console.log(response.data)
-      this.products.items = response.data
-    })
+    this.products.items =  getAllProducts()
   },
   methods: {
 

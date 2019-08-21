@@ -13,7 +13,7 @@ export const publicRoute = [
         path: "login",
         name: "login",
         meta: { title: "Login" },
-        component: () => import(/* webpackChunkName: "login" */ "@/views/auth/Login.vue")
+        component: () => import("@/views/auth/Login.vue")
       }
     ]
   },
@@ -128,7 +128,7 @@ export const protectedRoute = [
       {
         path: "/history",
         name: "History",
-        meta: { title: "Histórico" },
+        meta: { title: "HistÃ³rico" },
         component: () => import("@/views/history/History.vue")
       }
     ]
@@ -138,19 +138,19 @@ export const protectedRoute = [
   {
     path: "/user",
     component: DefaultLayout,
-    meta: { title: "Usuários", icon: "widgets", group: "product" },
+    meta: { title: "UsuÃ¡rios", icon: "widgets", group: "product" },
     redirect: "/users/all",
     children: [
       {
         path: "/users/all",
         name: "ListUsers",
-        meta: { title: "Usuários" },
+        meta: { title: "Usuï¿½rios" },
         component: () => import("@/views/users/ListUsers.vue")
       },
       {
         path: "/users/create",
         name: "CreateUser",
-        meta: { title: "Usuários" },
+        meta: { title: "Usuï¿½rios" },
         component: () => import("@/views/users/CreateUser.vue")
       }
     ]

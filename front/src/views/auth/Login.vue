@@ -3,9 +3,13 @@
     <v-card-text>
       <div class="layout column align-center">
         <img src="/static/m.png" alt="Vue Material Admin" width="120" height="120" />
-        <h1 class="flex my-4 primary--text">Material Admin Template</h1>
+        <h1 class="flex my-3 primary--text align-center">Papelaria São José</h1>
       </div>
       <v-form>
+
+        <div v-if="error">
+          Login ou senha inválidos
+        </div>
         <v-text-field
           append-icon="person"
           name="login"
@@ -24,28 +28,21 @@
       </v-form>
     </v-card-text>
     <div class="login-btn">
-      <v-btn icon>
-        <v-icon color="blue">fa fa-facebook-square fa-lg</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon color="red">fa fa-google fa-lg</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon color="light-blue">fa fa-twitter fa-lg</v-icon>
-      </v-btn>
-      <v-spacer></v-spacer>
       <v-btn block color="primary" @click="login" :loading="loading">Login</v-btn>
     </div>
   </v-card>
 </template>
 
 <script>
+import store from "./../../store";
+
 export default {
   data: () => ({
     loading: false,
+    error: false,
     model: {
-      username: "admin@isocked.com",
-      password: "password"
+      username: "",
+      password: ""
     }
   }),
 
@@ -53,8 +50,10 @@ export default {
     login() {
       this.loading = true
       // handle login
+        store.dispatch('doLogin', {username: this.model.username, password: this.model.password})
       setTimeout(() => {
-        this.$router.push("/dashboard")
+        this.loading = false
+        this.error = true
       }, 1000)
     }
   }
