@@ -15,8 +15,8 @@ This system starts with:
 
 For you install you will need to read:
 
--   [Install API](https://github.com/denis2710/back/papelaria_sao_jose/readme.md)
--   [Install WEB](https://github.com/denis2710/back/papelaria_sao_jose/readme.md)
+-   [Install API](https://github.com/denis2710/papelaria_sao_jose/blob/master/back/README.md)
+-   [Install WEB](https://github.com/denis2710/papelaria_sao_jose/blob/master/front/README.md)
 
 
 
