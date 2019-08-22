@@ -13,7 +13,7 @@ import { JwtStrategy } from './dto/jwt-strategy';
     JwtModule.register({
       secret: '3fkhM2HHTLxqkDzd',
       signOptions: {
-        expiresIn: 3600,
+        expiresIn: 7200,
       },
     }),
     TypeOrmModule.forFeature([UserRepository]),

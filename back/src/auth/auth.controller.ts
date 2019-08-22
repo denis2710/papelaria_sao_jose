@@ -1,7 +1,8 @@
-import { Controller, Post, Body, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Post, Body, UsePipes, ValidationPipe, Get, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -9,6 +10,12 @@ export class AuthController {
     constructor(
         private readonly authService: AuthService,
     ){}
+
+    @Get('/users')
+    @UseGuards(AuthGuard())
+    getUsers(): Promise<User[]> {
+        return this.authService.getUsers()
+    }
 
     @Post('/signup')
     @UsePipes(ValidationPipe)

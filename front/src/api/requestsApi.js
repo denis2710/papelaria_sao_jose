@@ -88,3 +88,29 @@ export async function getHistory() {
   }
 }
 
+export async function getAllUsers() {
+  try {
+    const apiRes = await HTTP.get("auth/users", config)
+    return apiRes.data
+  } catch (err) {
+    console.log(err.response.data.message)
+  }
+}
+
+export async function createUser(user) {
+  try {
+    user.isadmin = true
+    const apiRes = await HTTP.post("auth/signup", user, config)
+    return apiRes
+  } catch (err) {
+    console.log(err.response.data.message)
+  }
+}
+export async function getResumes() {
+  try {
+    const apiRes = await HTTP.get("products/resume", config)
+    return apiRes
+  } catch (err) {
+    console.log(err.response.data.message)
+  }
+}

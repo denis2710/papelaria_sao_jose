@@ -48,10 +48,16 @@ export class ProductsController {
         return this.productsService.getOnlyRemovedProducts();
     }
 
+    @Get('/resume')
+    getResume(): Promise<any> {
+        return this.productsService.getResume();
+    }
+
     @Get('/:id')
     findProductById(@Param() id: number): Promise<Product> {
         return this.productsService.findProductById(id);
     }
+
 
     @Post()
     @UsePipes(ValidationPipe)

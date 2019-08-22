@@ -2,7 +2,7 @@
   <v-card class="elevation-1 pa-3 login-card">
     <v-card-text>
       <div class="layout column align-center">
-        <img src="/static/m.png" alt="Vue Material Admin" width="120" height="120" />
+        <!-- <img src="/static/m.png" alt="Vue Material Admin" width="120" height="120" /> -->
         <h1 class="flex my-3 primary--text align-center">Papelaria São José</h1>
       </div>
       <v-form>
@@ -30,6 +30,9 @@
     <div class="login-btn">
       <v-btn block color="primary" @click="login" :loading="loading">Login</v-btn>
     </div>
+    <div class="login-btn">
+      <v-btn block color="primary" @click="createAccount" :loading="loading_create">Criar Conta</v-btn>
+    </div>
   </v-card>
 </template>
 
@@ -39,6 +42,7 @@ import store from "./../../store";
 export default {
   data: () => ({
     loading: false,
+    loading_create: false,
     error: false,
     model: {
       username: "",
@@ -55,6 +59,11 @@ export default {
         this.loading = false
         this.error = true
       }, 1000)
+    },
+
+    createAccount(){
+      this.loading_create = true
+      this.$router.push("/auth/create");
     }
   }
 }

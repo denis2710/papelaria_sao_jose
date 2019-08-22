@@ -16,6 +16,10 @@ export class HistoryService {
         return await history.save();
     }
 
+    async getCount(): Promise<number> {
+        return await this.historyRepository.count();
+    }
+
     async getAllHistory(): Promise<History[]> {
         return await this.historyRepository.find({
             relations: ['user', 'product'],

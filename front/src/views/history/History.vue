@@ -9,9 +9,9 @@
       <template v-slot:opposite>
         <span>
           <b>{{ item.user.firstname }}</b>
-          {{getAction(item.action)}} esse produto dia
-          {{ new Date(item.date).toLocaleDateString() }} às
-          {{ new Date(item.date).toLocaleTimeString().substring(0, 5) }}
+          {{getAction(item.action)}} esse produto
+          {{ getDate(item.date) }}
+          {{ getTime(item.date) }}
           </span>
       </template>
       <v-card class="elevation-2">
@@ -27,6 +27,7 @@
           </div>
           <div class="after"></div>
         </v-card-text>
+        <v-card-text v-else>{{item.product.description}}</v-card-text>
       </v-card>
     </v-timeline-item>
   </v-timeline>
@@ -52,13 +53,12 @@ export default {
     async updateHistory(){
       const apiReturn = await getHistory()
       this.history = apiReturn.data
-      console.log(this.history)
     },
 
     getColorByAction(action){
       switch (action) {
         case "create":
-          return "green lighten-2"
+          return "orange lighten-2"
           break;
 
         case "delete":
@@ -70,7 +70,7 @@ export default {
           break;
 
         case "activate":
-          return "orange lighten-2"
+          return "green lighten-2"
           break;
 
         default:
@@ -103,6 +103,22 @@ export default {
           break;
       }
 
+    },
+
+    getDate(date) {
+      const eventDate = new Date(date).toLocaleDateString();
+      const curDate = new Date().toLocaleDateString();
+
+      if(eventDate == curDate){
+        return "hoje"
+      } else {
+        return `dia ${eventDate}`
+      }
+    },
+
+    getTime(date) {
+      const eventTime = new Date(date).toLocaleTimeString().substring(0, 5)
+      return `às ${eventTime}`
     },
 
     getNomeCampo(campo){

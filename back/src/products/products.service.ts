@@ -66,31 +66,31 @@ export class ProductsService {
         let before: Product = new Product();
         let after: Product = new Product();
 
-        if(name !==  undefined && name !== product.name) {
+        if (name !==  undefined && name !== product.name) {
             before.name = product.name;
             after.name = name;
             product.name = name ;
         }
 
-        if(description  !==  undefined && description !== product.description) {
+        if (description  !==  undefined && description !== product.description) {
             before.description = product.description;
             after.description = description;
             product.description = description ;
         }
 
-        if(color !==  undefined && color !== product.color) {
+        if (color !==  undefined && color !== product.color) {
             before.color = product.color;
             after.color = color;
             product.color = color ;
         }
 
-        if(weight !==  undefined && weight !== product.weight) {
+        if (weight !==  undefined && weight !== product.weight) {
             before.weight = product.weight;
             after.weight = weight;
             product.weight = weight ;
         }
 
-        if(price !==  undefined && price !== product.price) {
+        if (price !==  undefined && price !== product.price) {
             before.price = product.price;
             after.price = price;
             product.price = price ;
@@ -118,7 +118,7 @@ export class ProductsService {
         const history = new History();
         history.product = product;
         history.user = user;
-        history.action = HistoryActionType.ACTIVATE,
+        history.action = HistoryActionType.DELETE,
         history.changes = '{}';
         history.date = new Date();
         await this.historyService.createHistory(history);
@@ -133,12 +133,21 @@ export class ProductsService {
         const history = new History();
         history.product = product;
         history.user = user;
-        history.action = HistoryActionType.DELETE,
+        history.action = HistoryActionType.ACTIVATE,
         history.changes = '{}';
         history.date = new Date();
         await this.historyService.createHistory(history);
 
         return await product.save();
+    }
+
+    async getResume() {
+        const resume = {};
+        resume['totalProd'] = await this.productRepository.count();
+        resume['activedProd'] = await this.productRepository.count({ where: { active: true } });
+        resume['removedProd'] = await this.productRepository.count({ where: { active: false } });
+        resume['totalHist'] = await this.historyService.getCount();
+        return resume;
     }
 
 }

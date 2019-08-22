@@ -40,6 +40,7 @@
 </template>
 <script>
 import NotificationList from "@/components/widgets/list/NotificationList"
+import store from "./../store"
 import Util from "@/util"
 export default {
   name: "AppToolbar",
@@ -49,12 +50,12 @@ export default {
   data() {
     return {
       items: [
-        {
-          icon: "account_circle",
-          href: "#",
-          title: "Minha Conta",
-          click: this.handleProfile
-        },
+        // {
+        //   icon: "account_circle",
+        //   href: "#",
+        //   title: "Minha Conta",
+        //   click: this.handleProfile
+        // },
         {
           icon: "fullscreen_exit",
           href: "#",
@@ -78,7 +79,9 @@ export default {
     },
     handleLogut() {
       //handle logout
-      this.$router.push('/auth/login')
+      // this.$router.push('/auth/login')
+      store.dispatch('logout')
+
     },
     handleSetting() {
 

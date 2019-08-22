@@ -24,7 +24,7 @@ export class AuthService {
         const isAdmin = false;
         const payload: JwtPayload = { username, isAdmin };
         const accessToken = await this.jwtService.sign(payload);
-        
+
         return { accessToken };
 
     }
@@ -41,6 +41,10 @@ export class AuthService {
         const accessToken = await this.jwtService.sign(payload);
 
         return { accessToken };
+    }
+
+    async getUsers(): Promise<User[]>{
+        return await this.userRepository.find();
     }
 
 }

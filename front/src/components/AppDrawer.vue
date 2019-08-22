@@ -1,7 +1,6 @@
 <template>
   <v-navigation-drawer class="app--drawer" :mini-variant.sync="mini" app v-model="showDrawer" :width="drawWidth">
     <v-toolbar color="primary darken-1" dark>
-      <img :src="computeLogo" height="36" alt="Papelaria São José" />
       <v-toolbar-title class="ml-0 pl-3">
         <span class="hidden-sm-and-down">São José</span>
       </v-toolbar-title>
