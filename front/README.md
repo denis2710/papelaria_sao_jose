@@ -5,6 +5,8 @@ Front end application for Papelaria São José project
 ## Required
 
 -   [NPM](https://npmjs.com/)
+-   [Node.js](https://nodejs.org/en/)
+
 
 ## Init App
 
