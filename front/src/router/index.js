@@ -23,11 +23,7 @@ router.beforeEach((to, from, next) => {
       next("/auth/login")
     }
   }
-  // if (to.fullPath === "/login") {
-  //   if (store.state.accessToken) {
-  //     next("/users")
-  //   }
-  // }
+
   next()
 })
 

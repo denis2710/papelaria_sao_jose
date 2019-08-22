@@ -62,7 +62,7 @@
           <h3>Basic Table</h3>
         </v-flex>
         <v-flex lg12>
-          <v-data-table :headers="basic.headers" :items="basic.items" hide-actions class="elevation-1">
+          <v-data-table :headers="basic.headers" hide-actions class="elevation-1">
             <template slot="items" slot-scope="props">
               <td>{{ props.item.name }}</td>
               <td class="text-xs-right">{{ props.item.calories }}</td>

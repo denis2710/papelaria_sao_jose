@@ -8,15 +8,32 @@
               <td>{{ props.item.id }}</td>
               <td>{{ props.item.name }}</td>
               <td>{{ props.item.color }}</td>
-              <td>{{ props.item.price }}</td>
-              <td>{{ props.item.weight }}</td>
+              <td>R$ {{ props.item.price.toFixed(2) }}</td>
+              <td>{{ props.item.weight }}g</td>
+              <td>{{ props.item.active ? 'Ativo' : 'Suspenso' }}</td>
               <td>
-                <v-btn depressed outline icon fab dark color="primary" small>
-                  <v-icon>edit</v-icon>
-                </v-btn>
-                <v-btn depressed outline icon fab dark color="pink" small>
-                  <v-icon>delete</v-icon>
-                </v-btn>
+                <v-tooltip left >
+                  <v-btn depressed outline icon fab dark color="primary" @click="edit(props.item.id)" small slot="activator" class="my-0">
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                  <span>Editar</span>
+                </v-tooltip>
+
+                <v-tooltip right v-if="props.item.active" >
+                  <v-btn  depressed outline icon fab dark color="red" @click="remove(props.item.id)" small slot="activator" class="my-0">
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                  <span>Suspender</span>
+                </v-tooltip>
+
+                <v-tooltip right v-else >
+                  <v-btn  depressed outline icon fab dark color="green" @click="reative(props.item.id)" small  slot="activator" class="my-0">
+                    <v-icon>delete_outline</v-icon>
+                  </v-btn>
+                  <span>Ativar</span>
+                </v-tooltip>
+
+
               </td>
             </template>
           </v-data-table>
@@ -28,13 +45,14 @@
 
 <script>
 
-import { getAllProducts } from '../../api/requestsApi';
+import { getAllProducts, removeProduct, reativeItem } from '../../api/requestsApi';
 
 export default {
   components: {
   },
   data() {
     return {
+      items: [{},{},{}],
       products: {
         headers:[
           {
@@ -58,18 +76,39 @@ export default {
             value: "weight"
           },
           {
-            text: "A��es",
+            text: "Status",
+            value: "actions"
+          },
+          {
+            text: "Ações",
             value: "actions"
           },
         ],
-        items: []
+        items: this.items
       }
     }
   },
-  created() {
-    this.products.items =  getAllProducts()
+  async created() {
+    await this.updateList()
   },
   methods: {
+    async updateList(){
+      this.products.items = await getAllProducts()
+    },
+
+    async remove(id) {
+      await removeProduct(id)
+      await this.updateList()
+    },
+
+    async reative(id) {
+      await reativeItem(id)
+      await this.updateList()
+    },
+
+    async edit(id) {
+        this.$router.push(`/products/edit/${id}`);
+    }
 
   }
 }

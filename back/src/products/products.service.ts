@@ -66,31 +66,31 @@ export class ProductsService {
         let before: Product = new Product();
         let after: Product = new Product();
 
-        if(name !==  undefined) { 
+        if(name !==  undefined && name !== product.name) {
             before.name = product.name;
             after.name = name;
             product.name = name ;
         }
 
-        if(description  !==  undefined) { 
+        if(description  !==  undefined && description !== product.description) {
             before.description = product.description;
             after.description = description;
             product.description = description ;
         }
 
-        if(color !==  undefined) { 
+        if(color !==  undefined && color !== product.color) {
             before.color = product.color;
             after.color = color;
             product.color = color ;
         }
 
-        if(weight !==  undefined) { 
+        if(weight !==  undefined && weight !== product.weight) {
             before.weight = product.weight;
             after.weight = weight;
             product.weight = weight ;
         }
 
-        if(price !==  undefined) { 
+        if(price !==  undefined && price !== product.price) {
             before.price = product.price;
             after.price = price;
             product.price = price ;
@@ -109,16 +109,34 @@ export class ProductsService {
         return product;
     }
 
-    async removeProduct(id: number): Promise<Product> {
+    async removeProduct(user: User, id: number): Promise<Product> {
         const product = await this.findProductById(id);
         product.active = false;
 
-        return await product.save();
+        await product.save();
+
+        const history = new History();
+        history.product = product;
+        history.user = user;
+        history.action = HistoryActionType.ACTIVATE,
+        history.changes = '{}';
+        history.date = new Date();
+        await this.historyService.createHistory(history);
+
+        return product;
     }
 
-    async reactivateProduct(id: number): Promise<Product> {
+    async reactivateProduct(user: User, id: number): Promise<Product> {
         const product = await this.findProductById(id);
         product.active = true;
+
+        const history = new History();
+        history.product = product;
+        history.user = user;
+        history.action = HistoryActionType.DELETE,
+        history.changes = '{}';
+        history.date = new Date();
+        await this.historyService.createHistory(history);
 
         return await product.save();
     }

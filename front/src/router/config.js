@@ -98,7 +98,7 @@ export const protectedRoute = [
         component: () => import("@/views/products/CreateProduct.vue")
       },
       {
-        path: "/products/edit",
+        path: "/products/edit/:id",
         name: "EditProduct",
         meta: { title: "Editar Produto" },
         component: () => import("@/views/products/EditProdutcs.vue")

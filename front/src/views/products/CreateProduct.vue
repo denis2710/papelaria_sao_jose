@@ -12,40 +12,41 @@
                     <v-subheader>Produto</v-subheader>
                   </v-flex>
                   <v-flex xs8>
-                    <v-text-field name="input-1" label="Nome do produto" color="primary" id="name"></v-text-field>
+                    <v-text-field v-model="product.name" name="input-1" label="Nome do produto" color="primary" id="name"></v-text-field>
                   </v-flex>
                 </v-layout>
-                
+
                 <v-layout row>
                   <v-flex xs4>
                     <v-subheader>Cor</v-subheader>
                   </v-flex>
                   <v-flex xs8>
-                    <v-text-field name="input-1" label="Cor" color="primary" id="color"></v-text-field>
+                    <v-text-field v-model="product.color" name="input-1" label="Cor" color="primary" id="color"></v-text-field>
                   </v-flex>
                 </v-layout>
 
                 <v-layout row>
                   <v-flex xs4>
-                    <v-subheader>Descriçãos</v-subheader>
+                    <v-subheader>DescriÃ§Ã£o</v-subheader>
                   </v-flex>
                   <v-flex xs8>
-                    <v-text-field
+                    <v-textarea
+                      v-model="product.description"
                       name="input-5"
-                      label="Descrição do produto"
+                      label="DescriÃ§Ã£o do produto"
                       value="Input text"
                       color="teal"
                       multi-line
-                    ></v-text-field>
+                    ></v-textarea>
                   </v-flex>
                 </v-layout>
 
                 <v-layout row>
                   <v-flex xs4>
-                    <v-subheader>Preço</v-subheader>
+                    <v-subheader>PreÃ§o</v-subheader>
                   </v-flex>
                   <v-flex xs8>
-                    <v-text-field label="Valor" :value="preco" prefix="R$"></v-text-field>
+                    <v-text-field v-model="product.price" label="Valor" :value="product.preco" prefix="R$"></v-text-field>
                   </v-flex>
                 </v-layout>
 
@@ -54,17 +55,17 @@
                     <v-subheader>Peso</v-subheader>
                   </v-flex>
                   <v-flex xs8>
-                    <v-text-field label="Peso" suffix="gramas"></v-text-field>
+                    <v-text-field v-model="product.weight" label="Peso" suffix="gramas"></v-text-field>
                   </v-flex>
                 </v-layout>
 
                 <v-layout row>
                   <v-flex xs5>
-                    <v-btn block color="error" :loading="loading">Cancelar</v-btn>
+                    <v-btn block color="error" >Cancelar</v-btn>
                   </v-flex>
-                  
-                  <v-flex xs8>                    
-                    <v-btn block color="success" :loading="loading">Cadastrar</v-btn>
+
+                  <v-flex xs8>
+                    <v-btn block color="success" @click="create" :loading="loadingCreate" >Cadastrar</v-btn>
                   </v-flex>
 
                 </v-layout>
@@ -81,24 +82,34 @@
 
 <script>
 import VWidget from "@/components/VWidget"
+import { createProduct } from '../../api/requestsApi';
+
 export default {
   components: {
     VWidget
   },
   data() {
     return {
-      name: "",
-      preco: "10.00",
-      rules: {
-        required: value => !!value || "Required.",
-        email: value => {
-          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          return pattern.test(value) || "Invalid e-mail."
-        }
-      }
+      loadingCreate: false,
+      product: {
+        name: "",
+        description: "",
+        color: "",
+        price: "",
+        weight: "",
+      },
+
     }
   },
   computed: {},
-  methods: {}
+  methods: {
+    async create () {
+      const apiResult = await createProduct(this.product)
+      if(apiResult.status === 201){
+        this.$router.push("/products/all");
+      }
+    }
+  }
 }
 </script>
+

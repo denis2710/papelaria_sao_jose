@@ -1,17 +1,90 @@
-import {HTTP} from '../common/http-common';
-import store from "./../store";
+import { HTTP } from "../common/http-common"
+import store from "./../store"
 
 const token = store.state.accessToken
-console.log({token})
+
 const config = {
-    headers: { Authorization: " Bearer " + token }
+  validateStatus: false,
+  headers: { Authorization: `Bearer ${token}` }
 }
 
-
-export function getAllProducts () {
-    HTTP
-    .get("products", null, null, config)
-    .then(response => {
-        return response.data
-    })
+export async function getProductById(id) {
+  try {
+    const apiRes = await HTTP.get(`products/${id}`, config)
+    return apiRes.data
+  } catch (err) {
+    console.log(err.response.data.message)
+  }
 }
+
+export async function updateProduct(id, product) {
+  try {
+    // product.price = product.price.replace(",", ".")
+    product.price = parseFloat(product.price)
+    product.weight = parseFloat(product.weight)
+    const apiRes = await HTTP.put(`products/${id}`, product, config)
+    return apiRes
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export async function removeProduct(id) {
+  try {
+    const apiRes = await HTTP.delete(`products/${id}`, config)
+    return apiRes
+  } catch (err) {
+    console.log(err.response.data.message)
+  }
+}
+
+export async function reativeItem(id) {
+  try {
+    const apiRes = await HTTP.patch(`products/${id}`, {}, config)
+    return apiRes
+  } catch (err) {
+    console.log(err.response.data.message)
+  }
+}
+
+export async function getAllProducts() {
+  return await getProducts("products")
+}
+
+export async function getActiveProducts() {
+  return await getProducts("products/active")
+}
+
+export async function getRemovedProducts() {
+  return await getProducts("products/removed")
+}
+
+async function getProducts(url) {
+  const data = await HTTP.get(url, config)
+  if (data.status === 200) {
+    return data.data
+  }
+}
+
+export async function createProduct(product) {
+  try {
+    product.price = product.price.replace(",", ".")
+    product.price = parseFloat(product.price)
+    product.weight = parseFloat(product.weight)
+    const apiRes = await HTTP.post("products", product, config)
+    return apiRes
+  } catch (err) {
+    console.log(err.response.data.message)
+  }
+}
+
+export async function getHistory() {
+  try {
+
+    const apiRes = await HTTP.get("history", config)
+    return apiRes
+  } catch (err) {
+    console.log(err.response.data.message)
+  }
+}
+

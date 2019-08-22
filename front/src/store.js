@@ -12,7 +12,7 @@ export default new Vuex.Store({
     loginError: null
   },
   mutations: {
-    loginStart: state => state.loggingIn = true,
+    loginStart: state => (state.loggingIn = true),
     loginStop: (state, errorMessage) => {
       state.loggingIn = false
       state.loginError = errorMessage
@@ -20,7 +20,7 @@ export default new Vuex.Store({
     updateAccessToken: (state, accessToken) => {
       state.accessToken = accessToken
     },
-    logout: (state) => {
+    logout: state => {
       state.accessToken = null
     }
   },
@@ -31,11 +31,13 @@ export default new Vuex.Store({
       axios
         .post("http://localhost:3000/auth/signin", loginData)
         .then(response => {
+          localStorage.removeItem("accessToken")
           localStorage.setItem("accessToken", response.data.accessToken)
           commit("loginStop", null)
           router.push("/dashboard")
         })
         .catch(error => {
+          localStorage.removeItem("accessToken")
           commit("loginStop", error.response.data.error, error.response.data.message)
           commit("updateAccessToken", null)
         })
@@ -46,7 +48,7 @@ export default new Vuex.Store({
     logout({ commit }) {
       localStorage.removeItem("accessToken")
       commit("logout")
-      router.push("/login")
+      router.push("/auth/login")
     }
   }
 })

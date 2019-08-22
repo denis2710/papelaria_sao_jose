@@ -66,13 +66,13 @@ export class ProductsController {
     }
 
     @Delete('/:id')
-    removeProduct(@Param() id: number): Promise<Product> {
-        return this.productsService.removeProduct(id);
+    removeProduct(@GetUser() user: User, @Param() id: number): Promise<Product> {
+        return this.productsService.removeProduct(user, id);
     }
 
     @Patch('/:id')
-    reactiveProduct(@Param() id: number): Promise<Product> {
-        return this.productsService.reactivateProduct(id);
+    reactiveProduct(@GetUser() user: User, @Param() id: number): Promise<Product> {
+        return this.productsService.reactivateProduct(user, id);
     }
 
 }

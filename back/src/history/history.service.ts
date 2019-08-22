@@ -15,13 +15,18 @@ export class HistoryService {
     async createHistory(history: History): Promise<History> {
         return await history.save();
     }
- 
+
     async getAllHistory(): Promise<History[]> {
-        return await this.historyRepository.find();
+        return await this.historyRepository.find({
+            relations: ['user', 'product'],
+            order: {
+                id: "DESC"
+            }
+         });
     }
 
-    async getHistoryWithFilter(getHistoryFilterDto: GetHistoryFilterDto): Promise<History[]> { 
-        return await this.historyRepository.filterHistory(getHistoryFilterDto)
+    async getHistoryWithFilter(getHistoryFilterDto: GetHistoryFilterDto): Promise<History[]> {
+        return await this.historyRepository.filterHistory(getHistoryFilterDto);
     }
 
 }
