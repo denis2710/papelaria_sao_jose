@@ -43,6 +43,14 @@
                   </v-flex>
                 </v-layout>
 
+                <v-layout row v-if="messageError">
+                  <v-flex xs12>
+                    <v-alert outline color="red" align-center justify-center icon="warning" :value="true">
+                      {{messageError}}
+                    </v-alert>
+                  </v-flex>
+                </v-layout>
+
                 <v-layout row>
                   <v-flex xs5>
                     <v-btn block color="error" >Cancelar</v-btn>
@@ -74,8 +82,9 @@ export default {
   data() {
     return {
       loadingCreate: false,
+      messageError: "",
       user: {
-        login: "",
+        username: "",
         password: "",
         firstname: "",
         lastname: "",
@@ -86,10 +95,84 @@ export default {
   computed: {},
   methods: {
     async create () {
+      if( this.passInValidation(this.user) ){
         const returnApi = await createUser(this.user)
         if(returnApi.status === 201){
             this.$router.push("/users/all");
         }
+      }
+    },
+    cancel() {
+      this.$router.push("/users/all");
+    },
+
+    passInValidation(user) {
+
+      let validated = true;
+      this.messageError = ""
+
+      //validate username
+      if(user.username === ""){
+        this.showError("O campo login não pode estar vazio")
+        validated = false
+        return validated
+      }
+
+      //validate username
+      if(user.username.length < 3){
+        this.showError("O campo login deve ter mais de 3 caracteres")
+        validated = false
+        return validated
+      }
+
+        //validate password
+      if(user.password === ""){
+        this.showError("O campo senha não pode estar vazio")
+        validated = false
+        return validated
+      }
+
+      //validate password
+      if(user.password.length < 3){
+        this.showError("O campo senha deve ter mais de 3 caracteres")
+        validated = false
+        return validated
+      }
+
+
+        //validate firstname
+      if(user.firstname === ""){
+        this.showError("O campo nome não pode estar vazio")
+        validated = false
+        return validated
+      }
+
+      //validate firstname
+      if(user.firstname.length < 3){
+        this.showError("O campo nome deve ter mais de 3 caracteres")
+        validated = false
+        return validated
+      }
+
+      //validate lastname
+      if(user.lastname === ""){
+        this.showError("O campo sobrenome não pode estar vazio")
+        validated = false
+        return validated
+      }
+
+      //validate lastname
+      if(user.lastname.length < 3){
+        this.showError("O campo sobrenome deve ter mais de 3 caracteres")
+        validated = false
+        return validated
+      }
+
+      return validated
+    },
+
+    showError(message){
+      this.messageError = message
     }
   }
 }

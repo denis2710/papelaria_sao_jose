@@ -7,9 +7,14 @@
       </div>
       <v-form>
 
-        <div v-if="error">
-          Login ou senha inválidos
-        </div>
+        <v-layout row v-if="error">
+          <v-flex xs12>
+            <v-alert outline color="red" align-center justify-center icon="warning" :value="true">
+              Login ou senha inválidos
+            </v-alert>
+          </v-flex>
+        </v-layout>
+
         <v-text-field
           append-icon="person"
           name="login"
@@ -49,6 +54,8 @@ export default {
       password: ""
     }
   }),
+
+
 
   methods: {
     login() {

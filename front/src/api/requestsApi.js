@@ -1,16 +1,22 @@
 import { HTTP } from "../common/http-common"
 import store from "./../store"
 
-const token = store.state.accessToken
 
-const config = {
-  validateStatus: false,
-  headers: { Authorization: `Bearer ${token}` }
+function getConfig() {
+  const token = store.state.accessToken
+  if (!token) {
+    throw "Token not found"
+  }
+
+  return {
+    validateStatus: false,
+    headers: { Authorization: `Bearer ${token}` }
+  }
 }
 
 export async function getProductById(id) {
   try {
-    const apiRes = await HTTP.get(`products/${id}`, config)
+    const apiRes = await HTTP.get(`products/${id}`, getConfig())
     return apiRes.data
   } catch (err) {
     console.log(err.response.data.message)
@@ -22,7 +28,7 @@ export async function updateProduct(id, product) {
     // product.price = product.price.replace(",", ".")
     product.price = parseFloat(product.price)
     product.weight = parseFloat(product.weight)
-    const apiRes = await HTTP.put(`products/${id}`, product, config)
+    const apiRes = await HTTP.put(`products/${id}`, product, getConfig())
     return apiRes
   } catch (err) {
     console.log(err)
@@ -31,7 +37,7 @@ export async function updateProduct(id, product) {
 
 export async function removeProduct(id) {
   try {
-    const apiRes = await HTTP.delete(`products/${id}`, config)
+    const apiRes = await HTTP.delete(`products/${id}`, getConfig())
     return apiRes
   } catch (err) {
     console.log(err.response.data.message)
@@ -40,7 +46,7 @@ export async function removeProduct(id) {
 
 export async function reativeItem(id) {
   try {
-    const apiRes = await HTTP.patch(`products/${id}`, {}, config)
+    const apiRes = await HTTP.patch(`products/${id}`, {}, getConfig())
     return apiRes
   } catch (err) {
     console.log(err.response.data.message)
@@ -60,7 +66,7 @@ export async function getRemovedProducts() {
 }
 
 async function getProducts(url) {
-  const data = await HTTP.get(url, config)
+  const data = await HTTP.get(url, getConfig())
   if (data.status === 200) {
     return data.data
   }
@@ -71,7 +77,7 @@ export async function createProduct(product) {
     product.price = product.price.replace(",", ".")
     product.price = parseFloat(product.price)
     product.weight = parseFloat(product.weight)
-    const apiRes = await HTTP.post("products", product, config)
+    const apiRes = await HTTP.post("products", product, getConfig())
     return apiRes
   } catch (err) {
     console.log(err.response.data.message)
@@ -81,7 +87,7 @@ export async function createProduct(product) {
 export async function getHistory() {
   try {
 
-    const apiRes = await HTTP.get("history", config)
+    const apiRes = await HTTP.get("history", getConfig())
     return apiRes
   } catch (err) {
     console.log(err.response.data.message)
@@ -90,7 +96,7 @@ export async function getHistory() {
 
 export async function getAllUsers() {
   try {
-    const apiRes = await HTTP.get("auth/users", config)
+    const apiRes = await HTTP.get("auth/users", getConfig())
     return apiRes.data
   } catch (err) {
     console.log(err.response.data.message)
@@ -100,15 +106,15 @@ export async function getAllUsers() {
 export async function createUser(user) {
   try {
     user.isadmin = true
-    const apiRes = await HTTP.post("auth/signup", user, config)
+    const apiRes = await HTTP.post("auth/signup", user)
     return apiRes
   } catch (err) {
-    console.log(err.response.data.message)
+    console.log(err)
   }
 }
 export async function getResumes() {
   try {
-    const apiRes = await HTTP.get("products/resume", config)
+    const apiRes = await HTTP.get("products/resume", getConfig())
     return apiRes
   } catch (err) {
     console.log(err.response.data.message)

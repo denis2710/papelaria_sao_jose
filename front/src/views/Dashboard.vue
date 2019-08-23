@@ -1,6 +1,6 @@
 <template>
   <div id="pageDashboard">
-    <v-container grid-list-xl fluid>
+    <v-container grid-list-xl fluid v-if="showDashboard">
       <v-layout row wrap>
         <!-- mini statistic start -->
         <v-flex lg3 sm6 xs12>
@@ -59,6 +59,7 @@ export default {
     PlainTableOrder
   },
   data: () => ({
+    showDashboard: false,
     qtdProd: "",
     qtdHist: "",
     qtdActive: "",
@@ -68,11 +69,17 @@ export default {
 
   },
   async created() {
-    const returnApi = await getResumes()
-    this.qtdActive = String(returnApi.data.activedProd)
-    this.qtdRemoved = String(returnApi.data.removedProd)
-    this.qtdHist = String(returnApi.data.totalHist)
-    this.qtdProd = String(returnApi.data.totalProd)
+    try{
+      const returnApi = await getResumes()
+
+      this.qtdActive = String(returnApi.data.activedProd)
+      this.qtdRemoved = String(returnApi.data.removedProd)
+      this.qtdHist = String(returnApi.data.totalHist)
+      this.qtdProd = String(returnApi.data.totalProd)
+      this.showDashboard = true;
+    } catch( err) {
+      console.log(err)
+    }
   }
 }
 </script>
